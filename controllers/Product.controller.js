@@ -1,0 +1,83 @@
+const ProductModel = require("../models/Product.model")
+
+const getProducts = async(req, res) => {
+    try {
+        const { sort, order, filter, search } = req.query;
+
+        let query = {};
+
+        if (sort) {
+            const sortOrder = order === "desc" ? -1 : 1;
+            query = { ...query, [sort]: sortOrder };
+        }
+
+        if (filter) {
+            query = { ...query, name: { $regex: filter, $options: 'i' } }; 
+        }
+
+        if (search) {
+            query = { ...query, name: { $regex: `^${search}`, $options: 'i' } };
+        }
+
+        const products = await ProductModel.find(query);
+        res.status(200).json({ products });
+
+    } catch (error) {
+
+        console.log(`error: ${error}`)
+        res.status(500).send({error: "internal server error"})
+        
+    }
+}
+
+const addProduct = async(req, res) => {
+    try {
+        const product = req.body;
+
+        await ProductModel.insertOne(product);
+        res.status(201).send({success: "product added successfully."})
+    } catch (error) {
+        console.log(`error: ${error}`)
+        res.status(500).send({error: "internal server error"})
+    }
+}
+
+const updateProduct = async(req, res) => {
+    try {
+        const _id = req.params.id;
+        const product = req.body;
+
+        await ProductModel.findByIdAndUpdate(_id, product);
+
+        res.status(200).send({success: "product updated successfully."})
+
+    } catch (error) {
+
+        console.log(`error: ${error}`)
+        res.status(500).send({error: "internal server error"})
+
+    }
+}
+
+const deleteProduct = async(req, res) => {
+    try {
+        const _id = req.params.id;
+
+        await ProductModel.findByIdAndDelete(_id);
+
+        res.status(200).send({success: "product deleted successfully."})
+
+    } catch (error) {
+
+        console.log(`error: ${error}`)
+        res.status(500).send({error: "internal server error"})
+
+    }
+}
+
+module.exports = {
+    addProduct,
+    getProducts,
+    updateProduct,
+    deleteProduct
+}
