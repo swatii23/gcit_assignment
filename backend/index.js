@@ -6,7 +6,11 @@ const productRouter = require("./routes/Product.route");
 
 const app = express();
 app.use(express.json());
+app.
 
+app.get("/", (req, res) => {
+    res.status.send({message: "Server is running."})
+})
 app.use("/products", productRouter);
 
 const port = process.env.PORT || 8080;
