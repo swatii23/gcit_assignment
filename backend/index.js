@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(cors());
 
 app.get("/", (req, res) => {
-    res.status.send({message: "Server is running."})
+    res.status(200).send({message: "Server is running."})
 })
 app.use("/products", productRouter);
 

@@ -34,7 +34,7 @@ const addProduct = async(req, res) => {
     try {
         const product = req.body;
 
-        await ProductModel.insertOne(product);
+        await ProductModel.create(product);
         res.status(201).send({success: "product added successfully."})
     } catch (error) {
         console.log(`error: ${error}`)
