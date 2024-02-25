@@ -199,7 +199,7 @@ const ProductCatalog = () => {
       {filteredProducts.length === 0 && searchTerm ? (
         <Text>No Matches Found.</Text>
       ) : (
-        <Table variant="simple" size="md" borderWidth="1px" borderRadius="lg">
+        <Table variant="simple" size="md" borderWidth="1px" borderRadius="lg" m={"auto"} w={"90%"}>
           <Thead>
             <Tr fontWeight="800">
               <Th border="1px solid #E2E8F0">
