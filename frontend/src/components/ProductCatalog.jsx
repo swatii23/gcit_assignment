@@ -66,12 +66,12 @@ const ProductCatalog = () => {
   };
 
   const handleSaveEdit = async () => {
-    for(let i of selectedProduct) {
-      if(!i){
-        alert(`${i} can't be empty, please fill.`)
-        return;
-      }
-    }
+    // for(let i in selectedProduct) {
+    //   if(!i){
+    //     alert(`${i} can't be empty, please fill.`)
+    //     return;
+    //   }
+    // }
     await fetch(`https://gcit-assignment.onrender.com/products/${selectedProduct._id}`, {
       method: 'PATCH',
       headers: {
@@ -110,6 +110,9 @@ const ProductCatalog = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    if(!value){
+      alert(`${name} is empty, fill it.`)
+    }
     setSelectedProduct((prevProduct) => ({
       ...prevProduct,
       [name]: value,
@@ -119,8 +122,8 @@ const ProductCatalog = () => {
   const handleSearch = () => {
     const filtered = products.filter(
       (product) =>
-        product.name.toLowerCase().startsWith(searchTerm.toLowerCase()) ||
-        product.description.toLowerCase().startsWith(searchTerm.toLowerCase())
+        product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.description.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredProducts(filtered);
   };
@@ -136,11 +139,12 @@ const ProductCatalog = () => {
 
   const handleSaveNewProduct = async () => {
     try {
-      for(let i of newProduct) {
-        if(!i)
-        alert(`${i} is empty, Please fill it.`)
-      return;
-      }
+      // for(let i in newProduct) {
+      //   if(!i)
+      //   alert(`${i} is empty, Please fill it.`)
+      //   console.log("inside for loop")
+      // return;
+      // }
       await fetch('https://gcit-assignment.onrender.com/products', {
         method: 'POST',
         headers: {
@@ -183,7 +187,7 @@ const ProductCatalog = () => {
           placeholder="Search by name"
           value={searchTerm}
           onChange={(e) => {
-            setSearchTerm(e.target.value);
+            setSearchTerm((pre) => e.target.value);
             handleSearch();
           }}
         />
