@@ -66,6 +66,12 @@ const ProductCatalog = () => {
   };
 
   const handleSaveEdit = async () => {
+    for(let i of selectedProduct) {
+      if(!i){
+        alert(`${i} can't be empty, please fill.`)
+        return;
+      }
+    }
     await fetch(`https://gcit-assignment.onrender.com/products/${selectedProduct._id}`, {
       method: 'PATCH',
       headers: {
@@ -130,6 +136,11 @@ const ProductCatalog = () => {
 
   const handleSaveNewProduct = async () => {
     try {
+      for(let i of newProduct) {
+        if(!i)
+        alert(`${i} is empty, Please fill it.`)
+      return;
+      }
       await fetch('https://gcit-assignment.onrender.com/products', {
         method: 'POST',
         headers: {
